@@ -356,7 +356,6 @@
     font-weight: 700;
     font-family: inherit;
     flex-shrink: 0;
-    position: relative;
     transition: border-color 0.2s, color 0.2s;
   }
 
@@ -368,66 +367,78 @@
 
   .info-btn:focus { outline: none; }
 
-  .info-tooltip {
+  /* モーダルオーバーレイ */
+  .info-overlay {
     display: none;
-    position: absolute;
-    bottom: calc(100% + 8px);
-    left: 50%;
-    transform: translateX(-50%);
-    width: 280px;
-    background: var(--text);
-    color: #fff;
-    font-size: 0.78rem;
-    font-weight: 400;
-    line-height: 1.6;
-    padding: 14px 16px;
-    border-radius: 10px;
-    box-shadow: 0 8px 24px rgba(0,0,0,0.2);
-    z-index: 100;
-    text-align: left;
-    pointer-events: none;
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    background: rgba(0,0,0,0.4);
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
   }
 
-  .info-tooltip::after {
-    content: '';
-    position: absolute;
-    top: 100%;
-    left: 50%;
-    transform: translateX(-50%);
-    border: 6px solid transparent;
-    border-top-color: var(--text);
+  .info-overlay.show {
+    display: flex;
   }
 
-  .info-btn:hover .info-tooltip,
-  .info-btn:focus .info-tooltip {
-    display: block;
+  .info-modal {
+    background: var(--card);
+    color: var(--text);
+    width: 100%;
+    max-width: 360px;
+    border-radius: 16px;
+    padding: 24px;
+    box-shadow: 0 16px 48px rgba(0,0,0,0.2);
+    position: relative;
   }
 
-  .info-tooltip strong {
-    display: block;
+  .info-modal-title {
+    font-size: 1rem;
+    font-weight: 700;
+    margin-bottom: 16px;
+  }
+
+  .info-modal-section {
+    margin-bottom: 14px;
+  }
+
+  .info-modal-section:last-of-type {
+    margin-bottom: 0;
+  }
+
+  .info-modal-section h4 {
+    font-size: 0.9rem;
+    font-weight: 700;
     margin-bottom: 4px;
+    color: var(--text);
+  }
+
+  .info-modal-section p {
     font-size: 0.82rem;
+    color: var(--text-muted);
+    line-height: 1.7;
   }
 
-  .info-tooltip .divider {
-    border-top: 1px solid rgba(255,255,255,0.2);
-    margin: 8px 0;
+  .info-modal-close {
+    display: block;
+    width: 100%;
+    margin-top: 16px;
+    padding: 12px;
+    border: none;
+    border-radius: 10px;
+    background: var(--bg);
+    color: var(--text);
+    font-family: inherit;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
   }
 
-  @media (max-width: 600px) {
-    .info-tooltip {
-      width: 240px;
-      font-size: 0.72rem;
-      padding: 12px 14px;
-      left: auto;
-      right: -8px;
-      transform: none;
-    }
-    .info-tooltip::after {
-      left: auto;
-      right: 16px;
-      transform: none;
-    }
+  .info-modal-close:hover {
+    background: var(--border);
   }
 
   /* 金利変更行ハイライト */
@@ -747,7 +758,7 @@
         <div class="form-group">
           <div class="label-with-info">
             <label for="car-method">返済方式</label>
-            <button type="button" class="info-btn" aria-label="返済方式の説明">?<span class="info-tooltip"><strong>元利均等返済</strong>毎月の返済額（元金+利息）が一定。家計の見通しが立てやすいが、返済初期は利息の割合が大きい。<span class="divider"></span><strong>元金均等返済</strong>毎月の元金返済額が一定。初期の返済額は高いが、総返済額は元利均等より少なくなる。</span></button>
+            <button type="button" class="info-btn" aria-label="返済方式の説明" onclick="showMethodInfo()">?</button>
           </div>
           <select id="car-method">
             <option value="equal">元利均等返済</option>
@@ -876,7 +887,7 @@
         <div class="form-group">
           <div class="label-with-info">
             <label for="house-method">返済方式</label>
-            <button type="button" class="info-btn" aria-label="返済方式の説明">?<span class="info-tooltip"><strong>元利均等返済</strong>毎月の返済額（元金+利息）が一定。家計の見通しが立てやすいが、返済初期は利息の割合が大きい。<span class="divider"></span><strong>元金均等返済</strong>毎月の元金返済額が一定。初期の返済額は高いが、総返済額は元利均等より少なくなる。</span></button>
+            <button type="button" class="info-btn" aria-label="返済方式の説明" onclick="showMethodInfo()">?</button>
           </div>
           <select id="house-method">
             <option value="equal">元利均等返済</option>
@@ -973,7 +984,7 @@
         <div class="form-group">
           <div class="label-with-info">
             <label for="other-method">返済方式</label>
-            <button type="button" class="info-btn" aria-label="返済方式の説明">?<span class="info-tooltip"><strong>元利均等返済</strong>毎月の返済額（元金+利息）が一定。家計の見通しが立てやすいが、返済初期は利息の割合が大きい。<span class="divider"></span><strong>元金均等返済</strong>毎月の元金返済額が一定。初期の返済額は高いが、総返済額は元利均等より少なくなる。</span></button>
+            <button type="button" class="info-btn" aria-label="返済方式の説明" onclick="showMethodInfo()">?</button>
           </div>
           <select id="other-method">
             <option value="equal">元利均等返済</option>
@@ -1179,6 +1190,22 @@
   </div>
 </div>
 
+<!-- 返済方式の説明モーダル -->
+<div class="info-overlay" id="method-info-overlay" onclick="hideMethodInfo(event)">
+  <div class="info-modal" onclick="event.stopPropagation()">
+    <div class="info-modal-title">返済方式の違い</div>
+    <div class="info-modal-section">
+      <h4>元利均等返済</h4>
+      <p>毎月の返済額（元金＋利息）が一定になる方式。家計の見通しが立てやすいのが特徴ですが、返済初期は利息の割合が大きく、元金がなかなか減りません。</p>
+    </div>
+    <div class="info-modal-section">
+      <h4>元金均等返済</h4>
+      <p>毎月の元金返済額が一定になる方式。返済初期は利息分が加わるため月額が高くなりますが、元利均等に比べて総返済額は少なくなります。</p>
+    </div>
+    <button class="info-modal-close" onclick="hideMethodInfo()">閉じる</button>
+  </div>
+</div>
+
 <script>
 // ユーティリティ
 const $ = id => document.getElementById(id);
@@ -1186,6 +1213,16 @@ const fmt = n => Math.round(n).toLocaleString('ja-JP');
 const fmtYen = n => fmt(n) + ' 円';
 
 let charts = {};
+
+// 返済方式インフォモーダル
+function showMethodInfo() {
+  $('method-info-overlay').classList.add('show');
+}
+function hideMethodInfo(e) {
+  if (!e || e.target === $('method-info-overlay')) {
+    $('method-info-overlay').classList.remove('show');
+  }
+}
 
 // タブ切り替え
 document.querySelectorAll('.tab-btn').forEach(btn => {
