@@ -1,7 +1,7 @@
 # 複利計算アプリ
 
 ## 最初に読む
-共通方針は [ワークスペースの案内](/Users/tommy/my-workspace/AGENTS.md) と [開発ルール](/Users/tommy/my-workspace/dev/AGENTS.md)。README.md、関連する直近の _docs も読む。
+ワークスペース内で作業する場合、共通方針は [ワークスペースの案内](../../../AGENTS.md) と [開発ルール](../../AGENTS.md)。README.md、関連する直近の _docs も読む。
 
 ## この案件
 - 目的：ローン返済、投資・積立の計算を行う静的Webアプリ。
